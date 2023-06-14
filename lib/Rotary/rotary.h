@@ -3,7 +3,7 @@
 class Rotary
 {
 public:
-  Rotary(uint8_t CLK_PIN, uint8_t DT_PIN, bool use_interrupt);
+  Rotary(uint8_t CLK_PIN, uint8_t DT_PIN);
   int8_t readRotary();
   uint32_t getCounter();
   void resetCounter();

@@ -9,7 +9,7 @@ int8_t step = 1;
 
 uint8_t dt, clk;
 
-Rotary::Rotary(uint8_t CLK_PIN, uint8_t DT_PIN, bool use_interrupt = false)
+Rotary::Rotary(uint8_t CLK_PIN, uint8_t DT_PIN)
 {
   clk = CLK_PIN;
   dt = DT_PIN;
