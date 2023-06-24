@@ -1,19 +1,28 @@
 #include "Arduino.h"
-#include "BleKeyboard.h"
+#include "MCP4725.h"
+#include "WiFi.h"
 
-BleKeyboard keyboard;
+MCP4725 dac(0x60);
 
-void setup(){
+uint32_t prevMillis = 0;
+float v_set, v_current, c_set, c_current;
+
+void setup()
+{
   Serial.begin(115200);
-  keyboard.begin();
+  dac.begin();
 }
 
-void loop(){
-  if (keyboard.isConnected()){
-    Serial.println("Sending Data...");
-    keyboard.print("Bitch");
-    delay(500);
-    keyboard.write(KEY_PAGE_DOWN);
+void loop()
+{
+  for (int x = 0; x < 4096; x++)
+  {
+    dac.writeDAC(x);
+    delay(10);
   }
-  delay(5000);
+  for (int x = 4095; x > 0; x--)
+  {
+    dac.writeDAC(x);
+    delay(10);
+  }
 }
