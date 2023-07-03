@@ -1,28 +1,30 @@
 #include "Arduino.h"
 #include "MCP4725.h"
-#include "WiFi.h"
 
 MCP4725 dac(0x60);
 
-uint32_t prevMillis = 0;
-float v_set, v_current, c_set, c_current;
+uint16_t value;
 
-void setup()
-{
+void setup(){
   Serial.begin(115200);
+  pinMode(17, INPUT_PULLDOWN);
+  pinMode(16, INPUT_PULLDOWN);
   dac.begin();
 }
 
-void loop()
-{
-  for (int x = 0; x < 4096; x++)
-  {
-    dac.writeDAC(x);
-    delay(10);
+void loop(){
+  if (digitalRead(16)){
+    if (value < 4095){
+      value++;
+      delay(10);
+    };
   }
-  for (int x = 4095; x > 0; x--)
-  {
-    dac.writeDAC(x);
-    delay(10);
+  if (digitalRead(17)){
+    if (value > 0){
+      value--;
+      delay(10);
+    };
   }
+  dac.writeDAC(value);
+  Serial.printf("DAC Value: %d\n", value);
 }
